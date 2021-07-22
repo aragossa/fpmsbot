@@ -3,6 +3,7 @@ from BotUser.utils.keyboard_helper import get_main_keyboard_female, get_main_key
     get_lists_menu_keyboard_female, get_subscribres_keyboard
 from utils import db_connector
 from utils.logger import get_logger
+from utils.notifications import Notification
 
 log = get_logger("bot_user")
 
@@ -114,6 +115,21 @@ class Botuser:
     def get_subscribers_list_keyboard(self):
         return get_subscribres_keyboard(self.get_subscribers())
 
-
     def delete_subscriber(self, subscriber_id):
         db_connector.delete_subscriber_db(self.uid, subscriber_id)
+
+
+    def send_self_notification(self, send_datetime, notification_type):
+        data_set = ("NEW", notification_type, self.uid, self.uid, send_datetime, "NEW")
+        notification = Notification(data_set=data_set)
+        db_connector.add_notification(notification=notification)
+
+
+    def send_notification_to_all_subscribers(self, send_datetime, notification_type):
+        subscribers = db_connector.get_subscribers_list(self.uid)
+        for subscriber in subscribers:
+            log.info(notification_type)
+            log.info(send_datetime)
+            data_set = ("NEW", notification_type, self.uid, subscriber[1], send_datetime, "NEW")
+            notification = Notification(data_set=data_set)
+            db_connector.add_notification(notification=notification)

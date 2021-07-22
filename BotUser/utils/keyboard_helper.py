@@ -1,3 +1,5 @@
+import datetime
+
 from telebot import types
 
 from utils import db_connector
@@ -74,3 +76,28 @@ def get_subscribres_keyboard(user_list):
         btn2 = types.InlineKeyboardButton(text=f'{user[1]}', callback_data='null')
         keyboard.add(btn1, btn2)
     return keyboard
+
+def get_calendar_keyboard(show_time):
+    date = show_time.strftime('%d.%m.%Y')
+    hour = show_time.strftime('%H')
+    minute = show_time.strftime('%M')
+    keyboard = types.InlineKeyboardMarkup()
+    formatted_time = show_time.strftime('%Y-%m-%d %H:%M:%S')
+    log.info('set_{}'.format(formatted_time))
+    btn1 = types.InlineKeyboardButton(text='+', callback_data='ch_d_p_{}'.format(formatted_time))
+    btn2 = types.InlineKeyboardButton(text='+', callback_data='ch_h_p_{}'.format(formatted_time))
+    btn3 = types.InlineKeyboardButton(text='+', callback_data='ch_m_p_{}'.format(formatted_time))
+    btn4 = types.InlineKeyboardButton(text=date, callback_data='set_{}'.format(formatted_time))
+    btn5 = types.InlineKeyboardButton(text=hour, callback_data='set_{}'.format(formatted_time))
+    btn6 = types.InlineKeyboardButton(text=minute, callback_data='set_{}'.format(formatted_time))
+    btn7 = types.InlineKeyboardButton(text='-', callback_data='ch_d_m_{}'.format(formatted_time))
+    btn8 = types.InlineKeyboardButton(text='-', callback_data='ch_h_m_{}'.format(formatted_time))
+    btn9 = types.InlineKeyboardButton(text='-', callback_data='ch_m_m_{}'.format(formatted_time))
+    keyboard.add(btn1, btn2, btn3)
+    keyboard.add(btn4, btn5, btn6)
+    keyboard.add(btn7, btn8, btn9)
+    btn10 = types.InlineKeyboardButton(text='Установить напоминание',
+                                       callback_data='set_{}'.format(formatted_time))
+    keyboard.add(btn10)
+    return keyboard
+

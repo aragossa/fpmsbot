@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 
 from utils.logger import get_logger
@@ -144,3 +145,29 @@ def delete_subscriber_db(publisher_id, subscriber_id):
                     WHERE publisher_id = {publisher_id}
                     AND subscriber_id = {subscriber_id}"""
         cur.execute(query)
+
+def add_notification(notification):
+    con, cur = connection()
+    with con:
+        query = f"""INSERT INTO scheduled (message_type, publisher, subscriber, scheduled_time)
+                        VALUES ('{notification.type}',
+                                 {notification.publisher},
+                                 {notification.subscriber},
+                                 '{notification.datetime}')"""
+        cur.execute(query)
+        return True
+
+
+def get_notifications():
+    con, cur = connection()
+    with con:
+        datetime_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cur.execute(f"""SELECT * FROM scheduled WHERE scheduled_time <= '{datetime_now}' AND status = 'NEW'""")
+        return cur.fetchall()
+
+
+def set_notification_sent(notification_id):
+    con, cur = connection()
+    with con:
+        cur.execute(f"""UPDATE scheduled SET status = 'SENT' WHERE id = {notification_id} """)
+        return True

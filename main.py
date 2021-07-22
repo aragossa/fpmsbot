@@ -66,7 +66,7 @@ def fpms_handler(call):
 @bot.callback_query_handler(func=lambda call: call.data[:5] == 'list_')
 def lists_handler(call):
     try:
-        log.info("catch callback list menu")
+        log.info("catch callback llists_handler")
         menu_helper.lists_menu(bot=bot, call=call)
     except Exception as e:
         log.exception(e)
@@ -78,14 +78,33 @@ def lists_handler(call):
 @bot.callback_query_handler(func=lambda call: call.data[:11] == 'del_subscr_')
 def delete_subscriber(call):
     try:
-        log.info("catch callback list menu")
+        log.info("catch callback delete_subscriber")
         menu_helper.delete_subscriber_menu(bot=bot, call=call)
     except Exception as e:
         log.exception(e)
         log.exception(call)
         bot.send_message(call.message.chat.id, 'Что-то пошло не так')
 
+@bot.callback_query_handler(func=lambda call: call.data[:3] == 'ch_')
+def change_time(call):
+    try:
+        log.info("catch callback change_time")
+        menu_helper.change_time(bot=bot, call=call)
+    except Exception as e:
+        log.exception(e)
+        log.exception(call)
+        bot.send_message(call.message.chat.id, 'Что-то пошло не так')
 
+
+@bot.callback_query_handler(func=lambda call:  (call.data[:4] == 'set_'))
+def add_notification(call):
+    try:
+        log.info("catch callback add_notification")
+        menu_helper.add_notification(bot=bot, call=call)
+    except Exception as e:
+        log.exception(e)
+        log.exception(call)
+        bot.send_message(call.message.chat.id, 'Что-то пошло не так')
 
 if __name__ == '__main__':
     # p1 = Process(target=check_pending, args=(bot,))
