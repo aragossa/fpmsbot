@@ -2,6 +2,7 @@ import telebot
 from multiprocessing import Process
 
 from BotUser.utils import menu_helper
+from scheduler.scheduler import check_pending
 from utils.db_connector import get_api_token
 from utils.logger import get_logger
 
@@ -107,7 +108,7 @@ def add_notification(call):
         bot.send_message(call.message.chat.id, 'Что-то пошло не так')
 
 if __name__ == '__main__':
-    # p1 = Process(target=check_pending, args=(bot,))
-    # p1.start()
+    p1 = Process(target=check_pending, args=(bot,))
+    p1.start()
     print('Listerning...')
     bot.polling(none_stop=True)

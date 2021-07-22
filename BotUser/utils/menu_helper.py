@@ -163,10 +163,10 @@ def change_time(bot, call):
         reply_markup=keyboard
     )
 
+
 def add_notification(bot, call):
     input_data = call.data.split('_')
     user_time = input_data[1]
-
 
     now_datetime = datetime.datetime.now()
     formatted_now_datetime = now_datetime.strftime('%Y-%m-%d %H:%M:%S')

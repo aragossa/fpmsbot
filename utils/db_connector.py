@@ -36,6 +36,12 @@ def check_auth(uid):
         return cur.fetchone()
 
 
+def get_user_info(uid):
+    con, cur = connection()
+    with con:
+        cur.execute(f"SELECT first_name, last_name, username FROM users WHERE id = {uid}")
+        return cur.fetchone()
+
 """ BOT METHODS"""
 
 

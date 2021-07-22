@@ -7,14 +7,8 @@ log = get_logger("test")
 
 
 def get_result():
-    data_set = ("NEW", "FLAG_ON", 12354345, "2021-06-12 09:00:00", "NEW")
-    notification = Notification(data_set=data_set)
-    print(notification.id)
-    print(notification.type)
-    print(notification.uid)
-    print(notification.datetime)
-    print(notification.status)
-
+    name = Botuser.get_user_info(1903075433)
+    print(name)
 
 
 

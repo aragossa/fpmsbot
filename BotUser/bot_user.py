@@ -15,6 +15,20 @@ class Botuser:
         self.gender = self.__get_user_gender()
 
     @staticmethod
+    def get_user_info(uid):
+        user_info = db_connector.get_user_info(uid=uid)
+        first_name = user_info[0]
+        last_name = user_info[1]
+        username = user_info[2]
+        formatted_username = Botuser.prepare_user_name(first_name=first_name,
+                                                   last_name=last_name,
+                                                   username=username
+                                                   )
+        return formatted_username
+
+
+
+    @staticmethod
     def prepare_user_name(first_name, last_name, username):
         if username != 'None':
             return username
